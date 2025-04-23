@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,30 +19,27 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "ordenes")
-public class Ordenes {
+@Table(name = "orden_devolucion")
+public class OrdenDevolucion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
-    private String orderCode;
-
-
-    @Column(nullable = false, precision = 15, scale = 2)
-    private BigDecimal totalAmount;
-
-    private String shippingAddress;
-
-    private Long userId;
-
-    private LocalDateTime createdAt;
-
-    private String status;
-
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Productos_orden> products;
     
+    @OneToOne
+    private Ordenes orden;
+
+    private LocalDateTime fechaDevolucion;
+
+    private String motivoDevolucion;
+
+    private String estadoDevolucion;
+
+    @Column(precision = 15, scale = 2)
+    private BigDecimal totalReembolso;
+
+    @OneToMany(mappedBy = "ordenDevolucion", cascade = CascadeType.ALL)
+    private List<ImagenesDevolucion> imagenes;
+
+
 }
