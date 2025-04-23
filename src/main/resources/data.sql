@@ -1,4 +1,3 @@
-
 /*
 INSERT INTO ordenes (order_code, total_amount, shipping_address, user_id, created_at, status)
 VALUES 
@@ -21,22 +20,27 @@ VALUES
 (5, 109, 'Smartphone Android', 300.00, 1, 300.00),
 (5, 110, 'Funda para teléfono', 50.00, 1, 50.00);
 
-INSERT INTO orden_devolucion (orden_id, fecha_devolucion, motivo_devolucion, estado_devolucion, total_reembolso)
-VALUES
-(1, NOW(), 'Producto defectuoso', 'POR_REVISAR', 100.00),
-(2, NOW(), 'No lo quiero', 'EN_PROCESO', 150.00),
-(3, NOW(), 'Producto dañado', 'POR_REVISAR', 250.00),
-(4, NOW(), 'Cancelado por cliente', 'APROBADO', 450.00),
-(5, NOW(), 'Producto erróneo', 'PENDIENTE', 350.00);
+INSERT INTO estados (nombre_estado) VALUES
+('POR_REVISAR'),
+('EN_PROCESO'),
+('APROBADO'),
+('RECHAZADO'),
+('PENDIENTE');
 
+INSERT INTO orden_devolucion (orden_id, motivo_devolucion, estado_id, total_reembolso) VALUES
+(1, 'Producto defectuoso', 1, 250.00),
+(2, 'Cambio de opinión', 2, 300.50),
+(3, 'No era lo que esperaba', 3, 500.75),
+(4, 'Producto dañado', 4, 150.25),
+(5, 'Producto no funciona', 5, 200.00);
 
 INSERT INTO productos_devueltos (devolucion_id, producto_id, cantidad)
 VALUES 
-(1, 101, 1),  -- 1 teclado devuelto
-(2, 103, 1),  -- 1 auricular devuelto
-(3, 105, 1),  -- 1 laptop devuelta
-(4, 107, 1),  -- 1 monitor devuelto
-(5, 109, 1);  -- 1 smartphone devuelto
+(1, 101, 1), 
+(2, 103, 1),  
+(3, 105, 1),  
+(4, 107, 1),  
+(5, 109, 1);  
 
 
 INSERT INTO imagenes_devolucion (orden_devolucion_id, url_imagen)
