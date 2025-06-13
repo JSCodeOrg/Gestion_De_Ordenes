@@ -1,6 +1,16 @@
+server:
+  port: 8084
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      register-with-eureka: true
+      fetch-registry: true
+
 spring:
   application:
-    name: Gestion_De_Ordenes
+    name: ordenes
   datasource:
     url: jdbc:postgresql://localhost:5432/GestionOrdenes
     username: ${DB_USERNAME}
@@ -19,3 +29,6 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+mercadopago:
+  access-token: ${MP-TOKEN}
