@@ -3,6 +3,7 @@ package com.JSCode.Gestion_De_Ordenes.services;
 import org.springframework.stereotype.Service;
 
 import com.JSCode.Gestion_De_Ordenes.dto.compras.productos.productoDTO;
+import com.JSCode.Gestion_De_Ordenes.models.Ordenes;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
@@ -15,6 +16,9 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 @Service
@@ -23,7 +27,12 @@ public class MercadoPagoService {
     @Value("${mercadopago.access-token}")
     private String accessToken;
 
-    public String crearPreferenciaPago(List<productoDTO> productos) throws MPException {
+    private final String frontend_url =  "https://0981-2800-484-b179-a510-4824-3da6-9ec6-a648.ngrok-free.app";
+
+    @Autowired
+    private ProductosService productosService;
+
+    public String crearPreferenciaPago(List<productoDTO> productos, Long orden_id) throws MPException {
 
         try {
             MercadoPagoConfig.setAccessToken(accessToken);
@@ -41,9 +50,9 @@ public class MercadoPagoService {
             }
 
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                    .success("https://google.com")
-                    .failure("https://google.com")
-                    .pending("https://google.com")
+                    .success(frontend_url + "/payment/success?orderId=" + orden_id)
+                    .failure(frontend_url + "/payment/failure?orderId=" + orden_id)
+                    .pending(frontend_url + "/payment/pending?orderId="+ orden_id)
                     .build();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()

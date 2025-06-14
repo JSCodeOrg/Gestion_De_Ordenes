@@ -40,6 +40,8 @@ public class Ordenes {
 
     private String status;
 
+    private String preferenceId;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Productos_orden> products;
     

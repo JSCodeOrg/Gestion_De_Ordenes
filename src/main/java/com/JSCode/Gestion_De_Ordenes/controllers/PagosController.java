@@ -25,18 +25,14 @@ public class PagosController {
     private PagosService pagosService;
 
     @PostMapping
-    public ResponseEntity generarNuevoPago(@RequestBody List<productoDTO> productos,
+    public ResponseEntity<String> generarNuevoPago(@RequestBody List<productoDTO> productos,
             @RequestHeader("Authorization") String authToken) {
-            
-                System.out.println("Productos recibidos: " + productos);
-
-        String token = authToken.substring(7);
 
         try {
-            ResponseEntity<String> paymentUrl = pagosService.generatePaymentReference(token, productos);
+            ResponseEntity<String> paymentUrl = pagosService.generatePaymentReference(authToken, productos);
 
             return paymentUrl;
-            
+
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Ha ocurrido un error al generar la preferencia de pago");
 

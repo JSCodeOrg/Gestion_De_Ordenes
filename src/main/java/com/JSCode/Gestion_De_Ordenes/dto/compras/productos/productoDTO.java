@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class productoDTO {
-    private long idProducto;
+    private long productoId;
     private String nombre;
     private int cantidad;
     private BigDecimal precioUnitario;
