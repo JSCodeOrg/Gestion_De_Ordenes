@@ -22,7 +22,7 @@ import com.JSCode.Gestion_De_Ordenes.repositories.OrdenesRepository;
 @Service
 public class ProductosService {
 
-    private final String inventarioUrl = "http://localhost:8080/inventario/existencias";
+    private final String inventarioUrl = "http://api-gateway:8080/inventario/existencias";
 
     @Autowired
     private OrdenesRepository ordenesRepository;
@@ -42,39 +42,39 @@ public class ProductosService {
         return response.getBody();
     }
 
-    public Ordenes crearNuevaOrden(Long user_id, List<productoDTO> productos, String shippingAddress) {
-        BigDecimal precio_total = BigDecimal.ZERO;
+    public Ordenes crearNuevaOrden(Long user_id, List<productoDTO> productos, String shippingAddress) { 
+        BigDecimal precio_total = BigDecimal.ZERO; 
 
-        Ordenes orden = new Ordenes();
-        orden.setOrderCode(UUID.randomUUID().toString());
-        orden.setShippingAddress(shippingAddress);
-        orden.setUserId(user_id);
+        Ordenes orden = new Ordenes(); 
+        orden.setOrderCode(UUID.randomUUID().toString()); 
+        orden.setShippingAddress(shippingAddress); 
+        orden.setUserId(user_id); 
         orden.setCreatedAt(LocalDateTime.now());
-        orden.setStatus("PENDIENTE");
+        orden.setStatus("PENDIENTE"); 
 
-        List<Productos_orden> productosOrdenados = new ArrayList<>();
+        List<Productos_orden> productosOrdenados = new ArrayList<>(); 
 
-        for (productoDTO producto : productos) {
-            BigDecimal subtotal = producto.getPrecioUnitario().multiply(BigDecimal.valueOf(producto.getCantidad()));
-            precio_total = precio_total.add(subtotal);
+        for (productoDTO producto : productos) { 
+            BigDecimal subtotal = producto.getPrecioUnitario().multiply(BigDecimal.valueOf(producto.getCantidad())); 
+            precio_total = precio_total.add(subtotal); 
 
-            Productos_orden productoOrden = new Productos_orden();
-            productoOrden.setOrder(orden);
-            productoOrden.setProductId(producto.getProductoId());
-            productoOrden.setProductName(producto.getNombre());
-            productoOrden.setProductPrice(producto.getPrecioUnitario());
-            productoOrden.setCantidad(producto.getCantidad());
-            productoOrden.setTotal(subtotal);
+            Productos_orden productoOrden = new Productos_orden(); 
+            productoOrden.setOrder(orden); 
+            productoOrden.setProductId(producto.getProductoId());  
+            productoOrden.setProductName(producto.getNombre()); 
+            productoOrden.setProductPrice(producto.getPrecioUnitario()); 
+            productoOrden.setCantidad(producto.getCantidad()); 
+            productoOrden.setTotal(subtotal); 
 
-            productosOrdenados.add(productoOrden);
+            productosOrdenados.add(productoOrden); 
         }
 
-        orden.setTotalAmount(precio_total);
-        orden.setProducts(productosOrdenados);
+        orden.setTotalAmount(precio_total); 
+        orden.setProducts(productosOrdenados); 
 
-        ordenesRepository.save(orden);
+        ordenesRepository.save(orden); 
 
-        return orden;
+        return orden; 
     }
 
 }

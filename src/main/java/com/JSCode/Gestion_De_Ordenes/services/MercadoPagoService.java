@@ -27,7 +27,7 @@ public class MercadoPagoService {
     @Value("${mercadopago.access-token}")
     private String accessToken;
 
-    private final String frontend_url =  "https://7582-2800-484-b179-a510-4824-3da6-9ec6-a648.ngrok-free.app";
+    private final String frontend_url =  "https://6d0f-152-203-14-224.ngrok-free.app";
 
     @Autowired
     private ProductosService productosService;

@@ -14,27 +14,26 @@ import com.JSCode.Gestion_De_Ordenes.security.JwtUtil;
 public class UserService {
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil; 
 
-    private final String userMicroserviceUrl = "http://localhost:8080/usuarios/users/getaddress";
+    private final String userMicroserviceUrl = "http://api-gateway:8080/usuarios/users/getaddress"; 
 
-    public String getShippingAddress(String authToken) {
+    public String getShippingAddress(String authToken) { 
 
-        String token = authToken.substring(7);
+        String token = authToken.substring(7); 
 
-        String userId = jwtUtil.extractUsername(token);  
-
-        Long user_id_long = Long.parseLong(userId); 
+        String userId = jwtUtil.extractUsername(token);   
         
         try {
-            RestTemplate restTemplate = new RestTemplate();
+            System.out.println(authToken); 
+            RestTemplate restTemplate = new RestTemplate(); 
 
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer" + authToken);
+            headers.set("Authorization", authToken); 
 
-            HttpEntity<Void> request = new HttpEntity<>(headers);
+            HttpEntity<Void> request = new HttpEntity<>(headers); 
 
-            String url = userMicroserviceUrl + "/" + userId;
+            String url = userMicroserviceUrl + "/" + userId; 
 
         
             ResponseEntity<String> response = restTemplate.exchange(
@@ -46,6 +45,7 @@ public class UserService {
 
             return response.getBody();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException("No se pudo obtener la dirección de envío del usuario", e);
         }
     }
