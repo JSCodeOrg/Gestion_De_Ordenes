@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.JSCode.Gestion_De_Ordenes.dto.ordenes.RegistroPagoDTO;
 import com.JSCode.Gestion_De_Ordenes.dto.ordenes.actualizarEstadoOrdenDTO;
 import com.JSCode.Gestion_De_Ordenes.models.RegistroPagos;
 import com.JSCode.Gestion_De_Ordenes.services.OrdenesService;
@@ -24,7 +26,7 @@ public class OrdenesController {
             @RequestHeader("Authorization") String authToken) {
 
         try {
-            RegistroPagos orden_paga = this.ordenesService.actualizarEstadoOrden(orden, authToken);
+            RegistroPagoDTO orden_paga = this.ordenesService.actualizarEstadoOrden(orden, authToken);
 
             return ResponseEntity.ok(orden_paga);
         } catch (NotFoundException e) {

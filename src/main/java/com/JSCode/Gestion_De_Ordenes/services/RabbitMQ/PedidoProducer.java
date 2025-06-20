@@ -4,7 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import com.JSCode.Gestion_De_Ordenes.config.RabbitMQConfig;
-import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.pedidoDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.PedidoDTO;
 
 @Service
 public class PedidoProducer {
@@ -15,7 +15,7 @@ public class PedidoProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void enviarPedido(pedidoDTO pedido) {
+    public void enviarPedido(PedidoDTO pedido) {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE,
                 RabbitMQConfig.ROUTING_KEY,
                 pedido);

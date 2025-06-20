@@ -2,11 +2,16 @@ package com.JSCode.Gestion_De_Ordenes.services;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.JSCode.Gestion_De_Ordenes.dto.ordenes.RegistroPagoDTO;
 import com.JSCode.Gestion_De_Ordenes.dto.ordenes.actualizarEstadoOrdenDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.PedidoDTO;
 import com.JSCode.Gestion_De_Ordenes.models.Ordenes;
 import com.JSCode.Gestion_De_Ordenes.models.RegistroPagos;
 import com.JSCode.Gestion_De_Ordenes.repositories.OrdenesRepository;
 import com.JSCode.Gestion_De_Ordenes.repositories.RegistroPagosRepository;
+import com.JSCode.Gestion_De_Ordenes.services.RabbitMQ.PedidoProducer;
+
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
@@ -19,8 +24,11 @@ public class OrdenesService {
     @Autowired
     private RegistroPagosRepository rPagosRepository;
 
+    @Autowired
+    private PedidoProducer pedidoProducer;
+
     @Transactional
-    public RegistroPagos actualizarEstadoOrden(actualizarEstadoOrdenDTO orden, String authToken) {
+    public RegistroPagoDTO actualizarEstadoOrden(actualizarEstadoOrdenDTO orden, String authToken) {
 
         try {
             Long orderId = Long.parseLong(orden.getOrderId());
@@ -29,6 +37,7 @@ public class OrdenesService {
                     .orElseThrow(() -> new NotFoundException("No se ha encontrado la orden referida"));
 
             busqueda_orden.setStatus("PAGADA");
+
             ordenesRepository.save(busqueda_orden);
 
             RegistroPagos registro_pago = new RegistroPagos();
@@ -39,7 +48,19 @@ public class OrdenesService {
 
             rPagosRepository.save(registro_pago);
 
-            return registro_pago;
+            PedidoDTO pedido_envio = new PedidoDTO();
+            pedido_envio.setId(orderId);
+            pedido_envio.setShippingAddress(busqueda_orden.getShippingAddress());
+
+            pedidoProducer.enviarPedido(pedido_envio);
+
+
+            RegistroPagoDTO registro = new RegistroPagoDTO();
+            registro.setMercadoPagoOrderId(registro_pago.getMercadoPagoOrderId());
+            registro.setPaymentId(registro_pago.getPaymentId());
+            registro.setStatus(registro_pago.getStatus());
+
+            return registro;
 
         } catch (Exception e) {
             throw new RuntimeException("Ha ocurrido un error al guardar el nuevo estado de orden." + e.getMessage());
