@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.JSCode.Gestion_De_Ordenes.dto.compras.productos.productoCantidadDTO;
 import com.JSCode.Gestion_De_Ordenes.dto.compras.productos.productoDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.ordenes.AddressDTO;
 import com.JSCode.Gestion_De_Ordenes.models.Ordenes;
 import com.JSCode.Gestion_De_Ordenes.security.JwtUtil;
 import com.mercadopago.exceptions.MPException;
@@ -34,7 +35,7 @@ public class PagosService {
                 System.out.println(producto.getCantidad());
             }
 
-            String shippingAddress = userService.getShippingAddress(token);
+            AddressDTO shippingAddress = userService.getShippingAddress(token);
 
             String clean_token = token.substring(7);
             String user_id = jwtUtil.extractUsername(clean_token);

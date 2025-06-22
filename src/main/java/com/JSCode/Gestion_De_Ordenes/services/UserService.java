@@ -6,6 +6,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+
+import com.JSCode.Gestion_De_Ordenes.dto.ordenes.AddressDTO;
 import com.JSCode.Gestion_De_Ordenes.security.JwtUtil;
 
 @Service
@@ -16,7 +18,7 @@ public class UserService {
 
     private final String userMicroserviceUrl = "http://api-gateway:8080/usuarios/users/getaddress"; 
 
-    public String getShippingAddress(String authToken) { 
+    public AddressDTO getShippingAddress(String authToken) { 
 
         String token = authToken.substring(7); 
 
@@ -34,11 +36,11 @@ public class UserService {
             String url = userMicroserviceUrl + "/" + userId; 
 
         
-            ResponseEntity<String> response = restTemplate.exchange(
+            ResponseEntity<AddressDTO> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     request,
-                    String.class
+                    AddressDTO.class
             );
 
             return response.getBody();

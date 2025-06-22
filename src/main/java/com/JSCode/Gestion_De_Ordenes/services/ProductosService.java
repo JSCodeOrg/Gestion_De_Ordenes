@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 import com.JSCode.Gestion_De_Ordenes.dto.compras.productos.productoCantidadDTO;
 import com.JSCode.Gestion_De_Ordenes.dto.compras.productos.productoDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.ordenes.AddressDTO;
 import com.JSCode.Gestion_De_Ordenes.models.Ordenes;
 import com.JSCode.Gestion_De_Ordenes.models.Productos_orden;
 import com.JSCode.Gestion_De_Ordenes.repositories.OrdenesRepository;
@@ -40,12 +41,13 @@ public class ProductosService {
         return response.getBody();
     }
 
-    public Ordenes crearNuevaOrden(Long user_id, List<productoDTO> productos, String shippingAddress) { 
+    public Ordenes crearNuevaOrden(Long user_id, List<productoDTO> productos, AddressDTO shippingAddress) { 
         BigDecimal precio_total = BigDecimal.ZERO; 
 
         Ordenes orden = new Ordenes(); 
         orden.setOrderCode(UUID.randomUUID().toString()); 
-        orden.setShippingAddress(shippingAddress); 
+        String addressConstruction = shippingAddress.getDireccion() + ", " + shippingAddress.getCiudad();
+        orden.setShippingAddress(addressConstruction); 
         orden.setUserId(user_id); 
         orden.setCreatedAt(LocalDateTime.now());
         orden.setStatus("PENDIENTE"); 
