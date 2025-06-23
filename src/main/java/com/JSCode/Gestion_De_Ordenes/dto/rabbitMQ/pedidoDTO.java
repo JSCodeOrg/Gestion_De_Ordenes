@@ -4,7 +4,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PedidoDTO {
+public class pedidoDTO {
     private Long id;
     private String shippingAddress;
 }

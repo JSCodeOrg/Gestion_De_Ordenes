@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.JSCode.Gestion_De_Ordenes.dto.ordenes.RegistroPagoDTO;
 import com.JSCode.Gestion_De_Ordenes.dto.ordenes.actualizarEstadoOrdenDTO;
-import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.PedidoDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.pedidoDTO;
 import com.JSCode.Gestion_De_Ordenes.models.Ordenes;
 import com.JSCode.Gestion_De_Ordenes.models.RegistroPagos;
 import com.JSCode.Gestion_De_Ordenes.repositories.OrdenesRepository;
@@ -48,7 +48,7 @@ public class OrdenesService {
 
             rPagosRepository.save(registro_pago);
 
-            PedidoDTO pedido_envio = new PedidoDTO();
+            pedidoDTO pedido_envio = new pedidoDTO();
             pedido_envio.setId(orderId);
             pedido_envio.setShippingAddress(busqueda_orden.getShippingAddress());
 

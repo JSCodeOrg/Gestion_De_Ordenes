@@ -2,7 +2,7 @@ package com.JSCode.Gestion_De_Ordenes.Services;
 
 import com.JSCode.Gestion_De_Ordenes.dto.ordenes.RegistroPagoDTO;
 import com.JSCode.Gestion_De_Ordenes.dto.ordenes.actualizarEstadoOrdenDTO;
-import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.PedidoDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.pedidoDTO;
 import com.JSCode.Gestion_De_Ordenes.models.Ordenes;
 import com.JSCode.Gestion_De_Ordenes.models.RegistroPagos;
 import com.JSCode.Gestion_De_Ordenes.repositories.OrdenesRepository;
@@ -63,7 +63,7 @@ public class OrdenesServiceTest {
 
         verify(ordenesRepository).save(any(Ordenes.class));
         verify(rPagosRepository).save(any(RegistroPagos.class));
-        verify(pedidoProducer).enviarPedido(any(PedidoDTO.class));
+        verify(pedidoProducer).enviarPedido(any(pedidoDTO.class));
     }
 
     @Test
