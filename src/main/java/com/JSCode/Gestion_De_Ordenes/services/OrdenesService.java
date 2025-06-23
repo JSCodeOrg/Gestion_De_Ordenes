@@ -58,7 +58,7 @@ public class OrdenesService {
             RegistroPagoDTO registro = new RegistroPagoDTO();
             registro.setMercadoPagoOrderId(registro_pago.getMercadoPagoOrderId());
             registro.setPaymentId(registro_pago.getPaymentId());
-            registro.setStatus(registro_pago.getStatus());
+            registro.setStatus("PAGADA");
 
             return registro;
 

@@ -12,5 +12,9 @@ public class productoDTO {
     private String nombre;
     private int cantidad;
     private BigDecimal precioUnitario;
-    
+
+    // Permite establecer precio con un double sin lanzar excepción
+    public void setPrecioUnitario(double precio) {
+        this.precioUnitario = BigDecimal.valueOf(precio);
+    }
 }

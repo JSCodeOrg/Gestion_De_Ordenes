@@ -1,4 +1,5 @@
 package com.JSCode.Gestion_De_Ordenes.services;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,28 +15,27 @@ import com.JSCode.Gestion_De_Ordenes.security.JwtUtil;
 public class UserService {
 
     @Autowired
-    private JwtUtil jwtUtil; 
+    private JwtUtil jwtUtil;
 
-    private final String userMicroserviceUrl = "http://api-gateway:8080/usuarios/users/getaddress"; 
+    @Autowired
+    private RestTemplate restTemplate; // ✅ ahora es inyectable y testeable
 
-    public AddressDTO getShippingAddress(String authToken) { 
+    private final String userMicroserviceUrl = "http://api-gateway:8080/usuarios/users/getaddress";
 
-        String token = authToken.substring(7); 
+    public AddressDTO getShippingAddress(String authToken) {
 
-        String userId = jwtUtil.extractUsername(token);   
-        
+        String token = authToken.substring(7);
+        String userId = jwtUtil.extractUsername(token);
+
         try {
-            System.out.println(authToken); 
-            RestTemplate restTemplate = new RestTemplate(); 
-
+            System.out.println(authToken);
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", authToken); 
+            headers.set("Authorization", authToken);
 
-            HttpEntity<Void> request = new HttpEntity<>(headers); 
+            HttpEntity<Void> request = new HttpEntity<>(headers);
 
-            String url = userMicroserviceUrl + "/" + userId; 
+            String url = userMicroserviceUrl + "/" + userId;
 
-        
             ResponseEntity<AddressDTO> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,

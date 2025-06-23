@@ -30,7 +30,6 @@ public class Ordenes {
     @Column(unique = true, nullable = false)
     private String orderCode;
 
-
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal totalAmount;
 
@@ -44,7 +43,22 @@ public class Ordenes {
 
     private String preferenceId;
 
+    // ✅ Campo adicional para corregir error en orden.setFechaPago(...)
+    private LocalDateTime fechaPago;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Productos_orden> products;
-    
+
+    // ✅ Opcional: si necesitas getOrderId() en lugar de getId()
+    public Long getOrderId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -1,16 +1,16 @@
 package com.JSCode.Gestion_De_Ordenes.services;
+
 import org.springframework.stereotype.Service;
 import com.JSCode.Gestion_De_Ordenes.dto.compras.productos.productoDTO;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
-import com.mercadopago.client.preference.PreferenceItemRequest;
-import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
-import com.mercadopago.client.preference.PreferenceClient;
-import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.client.preference.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -20,13 +20,12 @@ public class MercadoPagoService {
     @Value("${mercadopago.access-token}")
     private String accessToken;
 
-    private final String frontend_url =  "https://9b65-2800-484-b179-a510-2c-36ca-40d8-ce78.ngrok-free.app";
+    private final String frontend_url = "https://9b65-2800-484-b179-a510-2c-36ca-40d8-ce78.ngrok-free.app";
 
     @Autowired
     private ProductosService productosService;
 
     public String crearPreferenciaPago(List<productoDTO> productos, Long orden_id) throws MPException {
-
         try {
             MercadoPagoConfig.setAccessToken(accessToken);
 
@@ -45,7 +44,7 @@ public class MercadoPagoService {
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
                     .success(frontend_url + "/?orderId=" + orden_id)
                     .failure(frontend_url + "/?orderId=" + orden_id)
-                    .pending(frontend_url + "/?orderId="+ orden_id)
+                    .pending(frontend_url + "/?orderId=" + orden_id)
                     .build();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
@@ -54,7 +53,7 @@ public class MercadoPagoService {
                     .autoReturn("approved")
                     .build();
 
-            PreferenceClient client = new PreferenceClient();
+            PreferenceClient client = getPreferenceClient();
             Preference preference = client.create(preferenceRequest);
 
             return preference.getInitPoint();
@@ -69,5 +68,12 @@ public class MercadoPagoService {
             e.printStackTrace();
             throw new RuntimeException("Error interno de MercadoPago SDK: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Método protegido para permitir sobreescribir la creación del PreferenceClient en pruebas.
+     */
+    public PreferenceClient getPreferenceClient() {
+        return new PreferenceClient();
     }
 }
