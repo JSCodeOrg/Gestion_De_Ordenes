@@ -1,7 +1,7 @@
 package com.JSCode.Gestion_De_Ordenes.Services.RabbitMQ;
 
 import com.JSCode.Gestion_De_Ordenes.config.RabbitMQConfig;
-import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.PedidoDTO;
+import com.JSCode.Gestion_De_Ordenes.dto.rabbitMQ.pedidoDTO;
 import com.JSCode.Gestion_De_Ordenes.services.RabbitMQ.PedidoProducer;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ public class PedidoProducerTest {
     @Test
     public void testEnviarPedido() {
         // Arrange
-        PedidoDTO pedido = new PedidoDTO();
+        pedidoDTO pedido = new pedidoDTO();
         pedido.setId(123L);
         pedido.setShippingAddress("Calle 123, Medellín");
 
